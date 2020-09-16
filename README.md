@@ -1,2 +1,3 @@
-# u3
-Experimenting with creating a cross-platform UI Window that can be created as a separate process and then controlled via a named pipe.
+# Universal UI Utility (U3)
+
+This is a cross-platform program (created using Electron JS) that can be controlled by a named pipe. This allows you to create a UI window in any programming language that supports spawning separate processes and using named pipes.
