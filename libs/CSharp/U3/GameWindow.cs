@@ -21,11 +21,16 @@ namespace U3
         private NamedPipeClientStream client;
         private StringBuilder renderBuffer = new StringBuilder();
 
+        private readonly DrawingContext drawingContext;
+
         public GameWindow(string title, int width, int height, int fps)
         {
             this.title = title;
             this.width = width;
             this.height = height;
+
+            this.renderBuffer.Append("GAME_RENDER");
+            this.drawingContext = new DrawingContext(this.renderBuffer);
         }
 
         private static double GetCurrentTime()
@@ -42,44 +47,14 @@ namespace U3
             this.client.Connect();
             this.reader = new StreamReader(client);
             this.writer = new StreamWriter(client);
-            this.renderBuffer.Append("GAME_RENDER");
             this.lastFrameTime = GetCurrentTime();
 
             this.isShown = true;
         }
 
-        public void FillScreen(int red, int green, int blue)
+        public DrawingContext GetDrawingContext()
         {
-            red = Math.Max(0, Math.Min(255, red));
-            green = Math.Max(0, Math.Min(255, green));
-            blue = Math.Max(0, Math.Min(255, blue));
-            this.renderBuffer.Append(" F ");
-            this.renderBuffer.Append(red);
-            this.renderBuffer.Append(' ');
-            this.renderBuffer.Append(green);
-            this.renderBuffer.Append(' ');
-            this.renderBuffer.Append(blue);
-        }
-
-        public void DrawRectangle(int x, int y, int width, int height, int red, int green, int blue)
-        {
-            red = Math.Max(0, Math.Min(255, red));
-            green = Math.Max(0, Math.Min(255, green));
-            blue = Math.Max(0, Math.Min(255, blue));
-            this.renderBuffer.Append(" R ");
-            this.renderBuffer.Append(x);
-            this.renderBuffer.Append(' ');
-            this.renderBuffer.Append(y);
-            this.renderBuffer.Append(' ');
-            this.renderBuffer.Append(width);
-            this.renderBuffer.Append(' ');
-            this.renderBuffer.Append(height);
-            this.renderBuffer.Append(' ');
-            this.renderBuffer.Append(red);
-            this.renderBuffer.Append(' ');
-            this.renderBuffer.Append(green);
-            this.renderBuffer.Append(' ');
-            this.renderBuffer.Append(blue);
+            return this.drawingContext;
         }
 
         public void FlushFrame()
