@@ -45,10 +45,13 @@ namespace U3
             if (this.isShown) return;
 
             this.client = new NamedPipeClientStream("u3pipe");
-            this.client.Connect();
+            this.client.Connect();  
             this.reader = new StreamReader(client);
             this.writer = new StreamWriter(client);
             this.lastFrameTime = GetCurrentTime();
+
+            this.writer.WriteLine("GAME_INIT " + Util.TextToBase64(this.title) + " " + this.width + " " + this.height);
+            this.writer.Flush();
 
             this.isShown = true;
         }
