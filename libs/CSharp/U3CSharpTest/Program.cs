@@ -26,8 +26,8 @@ namespace U3CSharpTest
                 if (animX > width) animX = -50;
                 if (animY > height) animY = -50;
 
-                draw.FillScreen(0, 128, 255);
-                draw.DrawRectangle(animX, animY, 50, 50, 255, 0, 0);
+                draw.FillScreen(Color.SKY_BLUE);
+                draw.DrawRectangle(animX, animY, 50, 50, Color.RED);
 
                 window.FlushFrame();
             }

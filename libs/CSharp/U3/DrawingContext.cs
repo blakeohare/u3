@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Text;
+﻿using System.Text;
 
 namespace U3
 {
@@ -14,24 +11,18 @@ namespace U3
             this.buffer = buffer;
         }
 
-        public void FillScreen(int red, int green, int blue)
+        public void FillScreen(Color color)
         {
-            red = Math.Max(0, Math.Min(255, red));
-            green = Math.Max(0, Math.Min(255, green));
-            blue = Math.Max(0, Math.Min(255, blue));
             this.buffer.Append(" F ");
-            this.buffer.Append(red);
+            this.buffer.Append(color.Red);
             this.buffer.Append(' ');
-            this.buffer.Append(green);
+            this.buffer.Append(color.Green);
             this.buffer.Append(' ');
-            this.buffer.Append(blue);
+            this.buffer.Append(color.Blue);
         }
 
-        public void DrawRectangle(int x, int y, int width, int height, int red, int green, int blue)
+        public void DrawRectangle(int x, int y, int width, int height, Color color)
         {
-            red = Math.Max(0, Math.Min(255, red));
-            green = Math.Max(0, Math.Min(255, green));
-            blue = Math.Max(0, Math.Min(255, blue));
             this.buffer.Append(" R ");
             this.buffer.Append(x);
             this.buffer.Append(' ');
@@ -41,12 +32,11 @@ namespace U3
             this.buffer.Append(' ');
             this.buffer.Append(height);
             this.buffer.Append(' ');
-            this.buffer.Append(red);
+            this.buffer.Append(color.Red);
             this.buffer.Append(' ');
-            this.buffer.Append(green);
+            this.buffer.Append(color.Green);
             this.buffer.Append(' ');
-            this.buffer.Append(blue);
+            this.buffer.Append(color.Blue);
         }
-
     }
 }

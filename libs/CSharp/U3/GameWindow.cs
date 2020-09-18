@@ -11,7 +11,7 @@ namespace U3
         private string title;
         private int width;
         private int height;
-        private int fps;
+        private readonly int fps;
         private double lastFrameTime;
 
         private bool isShown = false;
@@ -28,6 +28,7 @@ namespace U3
             this.title = title;
             this.width = width;
             this.height = height;
+            this.fps = fps;
 
             this.renderBuffer.Append("GAME_RENDER");
             this.drawingContext = new DrawingContext(this.renderBuffer);
@@ -66,7 +67,7 @@ namespace U3
 
             double timeNow = GetCurrentTime();
             double diff = timeNow - this.lastFrameTime;
-            double frameDuration = 1 / 60.0;
+            double frameDuration = 1.0 / this.fps;
             double delay = frameDuration - diff;
             this.lastFrameTime = timeNow;
             int delayMillis = Math.Max(1, (int)(delay * 1000 + .5));
