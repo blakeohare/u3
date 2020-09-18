@@ -16,15 +16,16 @@ let createTunnelImpl = (title, width, height, type) => {
     let sendToRenderer;
     let close;
 
+    let win = null;
     function createWindow () {
-        const win = new BrowserWindow({
+        win = new BrowserWindow({
             width: width,
             height: height,
             title,
             webPreferences: {
                 nodeIntegration: true
             }
-        })
+        });
     
         close = () => { win.close(); };
 
@@ -80,6 +81,12 @@ let createTunnelImpl = (title, width, height, type) => {
             }
         },
         close,
+        setTitle: title => {
+            win.title = title + '';
+        },
+        setSize: (width, height) => {
+            win.setSize(width, height);
+        },
     };
 };
 

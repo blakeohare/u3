@@ -28,6 +28,14 @@
         s.height = '100%';
         let ctx = canvas.getContext('2d');
 
+        let gameInitHandler = data => {
+            let title = data[0]; // TODO: decode base64
+            let width = parseInt(data[1]);
+            let height = parseInt(data[2]);
+            canvas.width = width;
+            canvas.height = height;
+        };
+
         let gameRenderHandler = data => {
             let len = data.length;
             let i = 0;
@@ -64,6 +72,7 @@
 
         registerMessageListener((type, value) => {
             switch (type) {
+                case 'GAME_INIT': gameInitHandler(value); break;
                 case 'GAME_RENDER': gameRenderHandler(value); break;
                 default:
                     throw new Error("Not implemented: '" + type + "'");

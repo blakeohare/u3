@@ -1,5 +1,6 @@
 const namedpipeserver = require('./namedpipeserver.js');
 let renderTunnel = require('./rendertunnel.js');
+let util = require('./util.js');
 
 const parseGameRender = data => {
     let output = [];
@@ -45,6 +46,14 @@ const run = () => {
             switch (commandName) {
                 case 'GAME_RENDER':
                     args = parseGameRender(dataItems);
+                    break;
+
+                case 'GAME_INIT':
+                    args = dataItems.slice(1);
+                    tunnel.setTitle(util.base64ToText(args[0]));
+                    let width = parseInt(args[1]);
+                    let height = parseInt(args[2]);
+                    tunnel.setSize(width, height);
                     break;
                 
                 default:
