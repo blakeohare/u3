@@ -1,5 +1,5 @@
+const namedpipeserver = require('./namedpipeserver.js');
 let renderTunnel = require('./rendertunnel.js');
-const net = require('net');
 
 const parseGameRender = data => {
     let output = [];
@@ -36,10 +36,10 @@ const run = () => {
         console.log(msg);
     });
 
-    let server = net.createServer(stream => {
-        stream.on('data', c => {
-            let dataStr = c.toString('utf8');
-            let dataItems = dataStr.split(' ');
+    namedpipeserver.runServer(
+        'u3pipe',
+        data => {
+            let dataItems = data.split(' ');
             let args;
             let commandName = dataItems[0];
             switch (commandName) {
@@ -50,19 +50,14 @@ const run = () => {
                 default:
                     throw new Error("Unrecognized command: " + commandName.substr(0, 100) + "...");
             }
-            console.log("Data: ", c);
             tunnel.send(commandName, args);
+        },
+        () => {
+            console.log("Now listening");
+        },
+        () => {
+            console.log("Pipe closed");
         });
-
-        stream.on('end', () => {
-            stream.close();
-        });
-    });
-    
-    server.listen('\\\\?\\pipe\\u3pipe', () => {
-        console.log("Now listenering");
-    });
-
 };
 
 module.exports = { run };
